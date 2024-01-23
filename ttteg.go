@@ -73,16 +73,61 @@ func ttteg() {
 
 func computerPlay(gb gameBoard) gameBoard {
 	// Randomly choose an empty cell for the computer's move
-	bestScore := -Inf;
 	for {
+		if checksetup(gb) == false {
 		row := rand.Intn(3) + 1
 		col := rand.Intn(3) + 1
+		}
+		else pcblock(gb)
 
 		if isValidMove(gb, row, col) {
 			fmt.Printf("Computer plays at %d %d\n", row, col)
 			return playMove(gb, row, col)
 		}
 	}
+}
+
+// func pcblock (
+// 	for {
+// 		if checksetup(gb) == true {
+// 			if setupcol(gb) == true {
+				
+// 			}
+// 		}
+// 	}
+// )
+
+func checksetup(gb gameBoard) bool {
+	return setupcol(gb) || setupdiagon(gb) || setuprow(gb)
+}
+
+	
+func setuprow(gb gameBoard) bool {
+	for _, row := range gb.board {
+		if (row[0] != emptyCell && row[0] == row[1]) || (row[1] != emptyCell && row[1] == row[2]) ||  (row[2] != emptyCell && row[2] == row[0]) {
+			return true
+		}
+	}
+	return false
+}
+	
+func setupcol(gb gameBoard) bool {
+	for i := 0; i < 3; i++ {
+		if (gb.board[0][i] != emptyCell && gb.board[0][i] == gb.board[1][i]) || (gb.board[1][i] != emptyCell && gb.board[1][i] == gb.board[2][i]) || (gb.board[2][i] != emptyCell && gb.board[2][i] == gb.board[0][i]) {
+			return true
+		}
+	}
+	return false
+}
+
+func setupdiagon(gb gameBoard) bool {
+	if (gb.board[0][0] != emptyCell && gb.board[0][0] == gb.board[1][1]) || (gb.board[1][1] != emptyCell && gb.board[1][1] == gb.board[2][2]) || (gb.board[2][2] != emptyCell && gb.board[2][2] == gb.board[0][0]) {
+		return true
+	}
+	if (gb.board[0][2] != emptyCell && gb.board[0][2] == gb.board[1][1]) || (gb.board[1][1] != emptyCell && gb.board[1][1] == gb.board[2][0]) || (gb.board[2][0] != emptyCell && gb.board[2][0] == gb.board[0][2]) {
+		return true
+	}
+	return false 
 }
 
 func initializeGame() gameBoard {
